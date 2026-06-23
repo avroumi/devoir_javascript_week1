@@ -1,4 +1,4 @@
-const arr1 = [1, 2, 3, 4, 5]
+const arr1 = [1, 2, 3, 4, 5, 1001, 1000]
 const arrDouble = arr1.map(arr => arr * 2)
 console.log(arrDouble)
 
@@ -11,3 +11,12 @@ console.log(newPrice)
 console.log(arr1.filter(num => num % 2 === 0))
 
 console.log(HL.filter(word => word.length > 3))
+
+const dict1 = [{ name: "Avi", age: 17 }, { name: "Dana", age: 22 }]
+console.log(dict1.filter(user => user.age > 18))
+
+console.log(dict1.map(dict => dict.name))
+
+const taxes = arr1.map(price => price * 1.1).filter(num => num > 100)
+console.log(taxes)
+
