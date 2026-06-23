@@ -21,9 +21,19 @@ const taxes = arr1.map(price => price * 1.1).filter(num => num > 100)
 console.log(taxes)
 
 
-const arr2 = [10, 20, 30]
+const arr2 = [10, 20, 30, 7, 9, 36]
 console.log(arr2.reduce((acc, current) => acc + current, 0))
 
 
 console.log(arr2.reduce((acc, current) => acc * current, 1))
+
+//12
+console.log((arr2.reduce((acc, cur) => acc + cur, 0)) / arr2.length)
+
+//25
+console.log(arr2.sort((a, b) => a - b))
+
+//29
+const deleteNum = (arr2.splice(1, 2))
+console.log(arr2)
 
