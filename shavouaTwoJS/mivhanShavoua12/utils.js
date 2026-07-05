@@ -5,7 +5,6 @@ export const data = async () => {
     return  data 
 }
 
-data().then(data => console.log(data.cars.length))
 
 export const carsInRace = async () => {
     const dataRace = await data()
@@ -42,5 +41,19 @@ export const carDone = async () => {
     const  dataRace = await data()
     const done = dataRace.cars.filter(data => data.status === "done")
     return done.length
+}
+
+
+export const findNAmeByCarID = async (id) => {
+    const  dataRace = await data()
+    const findByid = dataRace.cars.find(car => car.carNumber === id )
+    if (!findByid){
+        return `Error : no car found with number #${id} in the current race`
+
+    }
+    else {
+        return `Found car # ${id} | Driver ${findByid.driverName} | status :  ${findByid.status}`
+    }
+    
 }
 
