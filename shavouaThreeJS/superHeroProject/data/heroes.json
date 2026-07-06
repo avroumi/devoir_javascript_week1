@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "codeName": "Corona",
+    "powers": ["telekinesis", "fire resistance"],
+    "threatLevel": 8,
+    "status": "missing",
+    "origin": "Unknown experimental facility",
+    "affiliations": ["VIGIL", "Independent"],
+    "firstSighting": "2021-03-12",
+    "notes": "Disappeared during a night mission. Last signal received near the old harbor.",
+    "createdAt": "2026-07-06T10:00:00.000Z",
+    "updatedAt": "2026-07-06T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "codeName": "Iron Dove",
+    "powers": ["flight", "enhanced strength"],
+    "threatLevel": 6,
+    "status": "active",
+    "origin": "Former military pilot",
+    "affiliations": ["Sky Guard"],
+    "firstSighting": "2019-11-04",
+    "notes": "Usually cooperative with VIGIL field agents.",
+    "createdAt": "2026-07-06T10:05:00.000Z",
+    "updatedAt": "2026-07-06T10:05:00.000Z"
+  },
+  {
+    "id": 3,
+    "codeName": "Shadow Kid",
+    "powers": ["invisibility", "speed"],
+    "threatLevel": 4,
+    "status": "active",
+    "origin": "Street-level hero from District 9",
+    "affiliations": ["Independent"],
+    "firstSighting": "2023-01-20",
+    "notes": "Young but extremely fast. Avoids official registration.",
+    "createdAt": "2026-07-06T10:10:00.000Z",
+    "updatedAt": "2026-07-06T10:10:00.000Z"
+  },
+  {
+    "id": 4,
+    "codeName": "Old Thunder",
+    "powers": ["electricity", "weather control"],
+    "threatLevel": 9,
+    "status": "retired",
+    "origin": "Northern mountains",
+    "affiliations": ["Storm Circle", "VIGIL"],
+    "firstSighting": "2008-06-18",
+    "notes": "Retired after the Black Cloud incident.",
+    "createdAt": "2026-07-06T10:15:00.000Z",
+    "updatedAt": "2026-07-06T10:15:00.000Z"
+  },
+  {
+    "id": 5,
+    "codeName": "Glass Fox",
+    "powers": ["illusion", "mind reading"],
+    "threatLevel": 7,
+    "status": "deceased",
+    "origin": "Classified VIGIL report",
+    "affiliations": ["Mirror Syndicate"],
+    "firstSighting": "2017-09-01",
+    "notes": "Confirmed deceased during Operation Silent Room.",
+    "createdAt": "2026-07-06T10:20:00.000Z",
+    "updatedAt": "2026-07-06T10:20:00.000Z"
+  }
+]
