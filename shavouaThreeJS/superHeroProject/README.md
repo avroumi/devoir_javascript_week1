@@ -1,33 +1,62 @@
-# VIGIL — Secret Superhero Archive API
+<div align="center">
 
-VIGIL is a vanilla Node.js backend project that manages a secret archive of superheroes.
+# 🕵️‍♂️ VIGIL — Secret Superhero Archive API
 
-The API allows agents to create, read, update, delete, filter, search, sort, paginate, and analyze superhero records stored in a local JSON file.
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&pause=1000&center=true&vCenter=true&width=700&lines=Vanilla+Node.js+Backend;Secret+Superhero+Archive;CRUD+%2B+Filters+%2B+Search+%2B+Stats" alt="Typing animation" />
 
-This project is built with **vanilla Node.js** using the native `http` module.  
-No Express framework is used.
+<br/>
 
----
+![Node.js](https://img.shields.io/badge/Node.js-Vanilla-green?style=for-the-badge&logo=node.js)
+![No Express](https://img.shields.io/badge/Express-Not%20Used-red?style=for-the-badge)
+![Storage](https://img.shields.io/badge/Storage-JSON-blue?style=for-the-badge)
+![API](https://img.shields.io/badge/API-REST-orange?style=for-the-badge)
 
-## Project Goals
-
-This project practices:
-
-- Building a clean CRUD API
-- Working with vanilla Node.js HTTP server
-- Reading and writing JSON files
-- Parsing request bodies manually
-- Handling routes manually without Express
-- Filtering with query parameters
-- Advanced searching with request body
-- Sorting and pagination
-- Building archive statistics
-- Returning consistent API responses
-- Handling errors with proper status codes
+</div>
 
 ---
 
-## Project Structure
+## 📌 Project Overview
+
+**VIGIL** is a vanilla Node.js backend API for managing a secret superhero archive.
+
+The system allows VIGIL agents to:
+
+- create superhero records
+- read all heroes or one hero by ID
+- update hero information
+- delete hero records
+- filter heroes with query parameters
+- perform advanced searches using a JSON body
+- sort and paginate results
+- get global archive statistics
+
+This project is built with the native Node.js `http` module.
+
+> No Express.  
+> No framework.  
+> Pure vanilla Node.js backend logic.
+
+---
+
+## 🧠 Main Concepts Practiced
+
+- Vanilla Node.js HTTP server
+- Manual routing
+- Manual body parsing with streams
+- JSON file storage
+- CRUD architecture
+- Query parameters
+- Advanced body search
+- Sorting
+- Pagination
+- Statistics calculation
+- Clean project structure
+- Reusable response helpers
+- Error handling
+
+---
+
+## 🗂️ Project Structure
 
 ```txt
 superHeroProject/
@@ -58,791 +87,727 @@ superHeroProject/
     └── notFound.js
 ```
 
-Main Architecture
+---
 
-The project is divided into clear layers.
+## 🧭 Request Flow
 
+```txt
+Client Request
+     ↓
 server.js
-
-Main entry point of the application.
-
-Responsibilities:
-
-Creates the HTTP server with http.createServer
-Parses the request URL using new URL
-Handles GET /health
-Sends requests to route handlers
-Calls notFound if no route matches
-Starts the server on port 3000
-
-Request flow:
-server.js
-↓
-heroes.routes.js / stats.routes.js
-↓
-services
-↓
+     ↓
+routes/
+     ↓
+services/
+     ↓
 data/heroesData.js
-↓
+     ↓
 data/heroes.json
+```
 
-Data Layer
-data/heroes.json
+Example:
 
-Local JSON file used as the database.
+```txt
+GET /heroes?status=active
+     ↓
+server.js
+     ↓
+handleHeroesRoutes()
+     ↓
+getAllHeroes()
+     ↓
+filterHeroesByQuery()
+     ↓
+sendSuccess()
+```
 
-Each hero record has this structure:
+---
+
+# 🚀 How to Run
+
+## 1. Install dependencies
+
+If you already have `package.json`:
+
+```bash
+npm install
+```
+
+This project does not require Express.
+
+---
+
+## 2. Start the server
+
+```bash
+node server.js
+```
+
+Server runs on:
+
+```txt
+http://localhost:3000
+```
+
+---
+
+## 3. Test health route
+
+```bash
+curl "http://localhost:3000/health"
+```
+
+Expected response:
+
+```json
 {
-"id": 1,
-"codeName": "Corona",
-"powers": ["telekinesis", "fire resistance"],
-"threatLevel": 8,
-"status": "missing",
-"origin": "Unknown experimental facility",
-"affiliations": ["VIGIL", "Independent"],
-"firstSighting": "2021-03-12",
-"notes": "Disappeared during a night mission.",
-"createdAt": "2026-07-06T10:00:00.000Z",
-"updatedAt": "2026-07-06T10:00:00.000Z"
+  "success": true,
+  "data": "Hello to healthy server"
 }
+```
 
-Allowed hero statuses:
+---
 
+# 🦸 Hero Data Model
+
+Each hero record looks like this:
+
+```json
+{
+  "id": 1,
+  "codeName": "Corona",
+  "powers": ["telekinesis", "fire resistance"],
+  "threatLevel": 8,
+  "status": "missing",
+  "origin": "Unknown experimental facility",
+  "affiliations": ["VIGIL", "Independent"],
+  "firstSighting": "2021-03-12",
+  "notes": "Disappeared during a night mission.",
+  "createdAt": "2026-07-06T10:00:00.000Z",
+  "updatedAt": "2026-07-06T10:00:00.000Z"
+}
+```
+
+---
+
+## ✅ Allowed Status Values
+
+```txt
 active
 retired
 missing
 deceased
+```
 
-data/heroesData.js
+---
 
-This file is responsible only for reading and writing the JSON file.
+# 🛣️ API Routes
 
-readHeroes()
+## General Routes
 
-Reads all heroes from data/heroes.json.
+| Method | Route | Description |
+|---|---|---|
+| GET | `/health` | Check if the server is running |
+| GET | `/stats` | Get archive statistics |
 
-Responsibilities:
+---
 
-Opens the JSON file
-Reads it as UTF-8 text
-Parses the JSON string into a JavaScript array
-Returns the heroes array
+## Heroes Routes
 
-Used by:
+| Method | Route | Description |
+|---|---|---|
+| GET | `/heroes` | Get all heroes with filters, sorting and pagination |
+| GET | `/heroes/:id` | Get one hero by ID |
+| POST | `/heroes` | Create a new hero |
+| PATCH | `/heroes/:id` | Partially update a hero |
+| DELETE | `/heroes/:id` | Delete a hero |
+| POST | `/heroes/search` | Advanced search using request body |
 
-getAllHeroes
-getHeroesById
-createHero
-updateHero
-deleteHero
-getHeroesStats
-writeHeroes(data)
+---
 
-Writes the full heroes array into data/heroes.json.
+# 📦 Response Format
 
-Responsibilities:
+## Success
 
-Receives a full array of heroes
-Converts it to JSON with JSON.stringify
-Writes it back to the JSON file
+```json
+{
+  "success": true,
+  "data": {}
+}
+```
+
+## Success with Pagination
+
+```json
+{
+  "success": true,
+  "data": [],
+  "meta": {
+    "total": 4,
+    "page": 1,
+    "limit": 2,
+    "totalPages": 2
+  }
+}
+```
+
+## Error
+
+```json
+{
+  "success": false,
+  "message": "Error message"
+}
+```
+
+---
+
+# 📁 File-by-File Explanation
+
+---
+
+## `server.js`
+
+Main entry point of the application.
+
+### Responsibilities
+
+- creates the HTTP server
+- parses the request URL
+- handles `/health`
+- sends requests to route handlers
+- calls `notFound()` if no route matches
+- starts the server on port `3000`
+
+---
+
+## `data/heroes.json`
+
+Local JSON file used as the database.
+
+It stores the full list of superhero records.
 
 Important:
 
-This function should always write a JSON string, not a raw JavaScript object.
+```txt
+This file must always contain valid JSON.
+```
 
-Correct idea:
+Example valid empty state:
 
-JavaScript array
-↓
-JSON.stringify(...)
-↓
-write to heroes.json
-Utilities
-utils/response.js
+```json
+[]
+```
 
-Centralizes all API responses.
+---
 
-This prevents repeating:
+## `data/heroesData.js`
 
-res.statusCode
-Content-Type
-JSON.stringify
-res.end
-sendSuccess(res, statusCode, data, meta = null)
+Handles only file reading and writing.
 
-Sends a successful JSON response.
+### `readHeroes()`
+
+Reads all heroes from `heroes.json`.
+
+| Step | Description |
+|---|---|
+| 1 | Reads the JSON file |
+| 2 | Converts JSON text into JavaScript data |
+| 3 | Returns the heroes array |
+
+---
+
+### `writeHeroes(data)`
+
+Writes the full heroes array back into `heroes.json`.
+
+| Step | Description |
+|---|---|
+| 1 | Receives the full heroes array |
+| 2 | Converts it using `JSON.stringify` |
+| 3 | Writes it into the JSON file |
+
+---
+
+## `utils/response.js`
+
+Centralizes API responses.
+
+### `sendSuccess(res, statusCode, data, meta = null)`
+
+Sends a successful response.
 
 Used for:
 
-Successful GET requests
-Created hero
-Updated hero
-Deleted hero
-Search results
-Stats
+- `GET /heroes`
+- `GET /heroes/:id`
+- `POST /heroes`
+- `PATCH /heroes/:id`
+- `DELETE /heroes/:id`
+- `POST /heroes/search`
+- `GET /stats`
 
-Basic response:
+---
 
-{
-"success": true,
-"data": {}
-}
+### `sendError(res, statusCode, message)`
 
-With pagination metadata:
+Sends an error response.
 
-{
-"success": true,
-"data": [],
-"meta": {
-"total": 4,
-"page": 1,
-"limit": 2,
-"totalPages": 2
-}
-}
-sendError(res, statusCode, message)
+Used for:
 
-Sends an error JSON response.
+- invalid input
+- invalid JSON
+- hero not found
+- route not found
+- duplicate `codeName`
+- internal errors
 
-Example:
+---
 
-{
-"success": false,
-"message": "Hero not found"
-}
+## `utils/parseBody.js`
 
-Used when:
+Vanilla Node.js does not provide `req.body`.
 
-Validation fails
-Hero does not exist
-Route does not exist
-Duplicate codeName
-Invalid JSON body
-Internal server error
-utils/parseBody.js
+This utility manually reads the request body.
 
-In vanilla Node.js, there is no req.body.
+### `parseBody(req)`
 
-This utility manually reads the request body from the request stream.
-
-parseBody(req)
-
-Responsibilities:
-
-Listens to the "data" event
-Collects all chunks of the request body
-Listens to the "end" event
-Converts the JSON string into a JavaScript object
-Returns {} if the body is empty
-Throws a 400 error if the JSON is invalid
-Handles stream errors with a 500 error
+| Event | Purpose |
+|---|---|
+| `data` | Receives chunks of the body |
+| `end` | Body is complete, then JSON is parsed |
+| `error` | Handles stream reading errors |
 
 Used by:
 
+```txt
 POST /heroes
 PATCH /heroes/:id
 POST /heroes/search
+```
 
-Request body flow:
+---
 
-Client sends JSON
-↓
-Node receives chunks
-↓
-parseBody joins chunks
-↓
-JSON.parse
-↓
-JavaScript object
+## `middlewares/notFound.js`
 
-Middleware
-middlewares/notFound.js
+Handles routes that do not exist.
 
-Handles all undefined routes.
-
-notFound(res)
-
-Returns a clean 404 response.
-
-Example:
-
-{
-"success": false,
-"message": "Route not found"
-}
-
-Used when no route handler matches the request.
-
-Heroes Service
-
-File:
-
-services/heroes.service.js
-
-This file contains the main CRUD logic for heroes.
-
-getAllHeroes()
-
-Returns all heroes from the JSON file.
-
-Responsibilities:
-
-Calls readHeroes
-Returns the full heroes array
-
-Used by:
-
-GET /heroes
-POST /heroes/search
-GET /stats
-getHeroesById(id)
-
-Finds one hero by ID.
-
-Responsibilities:
-
-Converts the URL id from string to number
-Reads all heroes
-Finds the hero with the matching id
-Throws 404 if the hero does not exist
-Returns the hero if found
-
-Example:
-
-GET /heroes/2
-createHero(heroData)
-
-Creates a new hero.
-
-Responsibilities:
-
-Reads all existing heroes
-Validates required fields
-Checks that codeName is unique
-Creates a new id
-Adds createdAt
-Adds updatedAt
-Sets default status to active if missing
-Saves the updated heroes array
-Returns the new hero
-
-Required fields:
-
-codeName
-powers
-threatLevel
-
-Validation rules:
-
-codeName must be a non-empty string
-codeName must be unique
-powers must be a non-empty array
-Every power must be a string
-threatLevel must be an integer between 1 and 10
-status, if provided, must be valid
-affiliations, if provided, must be an array
-
-Possible errors:
-
-400 Invalid data
-409 codeName already exists
-updateHero(id, updateData)
-
-Updates an existing hero partially.
-
-Used by:
-
-PATCH /heroes/:id
-
-Responsibilities:
-
-Reads all heroes
-Finds the hero by id
-Throws 404 if not found
-Prevents updating id
-Prevents updating createdAt
-Validates fields if they are provided
-Checks duplicate codeName against other heroes
-Merges old hero data with new data
-Updates updatedAt
-Saves the updated heroes array
-Returns the updated hero
-
-Example body:
-
-{
-"status": "missing"
-}
-
-Only the provided fields are changed.
-
-deleteHero(id)
-
-Deletes a hero by id.
-
-Used by:
-
-DELETE /heroes/:id
-
-Responsibilities:
-
-Reads all heroes
-Checks if the hero exists
-Removes the hero from the array
-Saves the updated array
-Returns a success message
-
-Possible error:
-
-404 Hero not found
-Search Service
-
-File:
-
-services/search.service.js
-
-This file contains filtering, sorting, pagination, and advanced search logic.
-
-filterHeroesByQuery(heroes, query)
-
-Used by:
-
-GET /heroes
-
-Filters heroes using query parameters from the URL.
-
-Supported query parameters:
-
-status
-power
-minLevel
-maxLevel
-search
-sortBy
-order
-page
-limit
-status
-
-Filters by exact hero status.
-
-Example:
-
-GET /heroes?status=active
-power
-
-Filters heroes that contain a specific power inside their powers array.
-
-Example:
-
-GET /heroes?power=speed
-minLevel
-
-Returns heroes whose threatLevel is greater than or equal to the given value.
-
-Example:
-
-GET /heroes?minLevel=7
-maxLevel
-
-Returns heroes whose threatLevel is less than or equal to the given value.
-
-Example:
-
-GET /heroes?maxLevel=8
-search
-
-Searches text inside:
-
-codeName
-notes
-
-Example:
-
-GET /heroes?search=mission
-
-The search is case-insensitive.
-
-sortBy
-
-Sorts results by one of these fields:
-
-codeName
-threatLevel
-firstSighting
-
-Example:
-
-GET /heroes?sortBy=threatLevel
-order
-
-Controls sort direction.
-
-Allowed values:
-
-asc
-desc
-
-Default:
-
-asc
-
-Example:
-
-GET /heroes?sortBy=threatLevel&order=desc
-page and limit
-
-Used for pagination.
-
-Example:
-
-GET /heroes?page=1&limit=2
-
-Response includes metadata:
-
-"meta": {
-"total": 4,
-"page": 1,
-"limit": 2,
-"totalPages": 2
-}
-advancedSearchHeroes(heroes, body)
-
-Used by:
-
-POST /heroes/search
-
-Performs advanced search using a JSON body.
-
-Supported body fields:
-
-statuses
-powers
-minLevel
-maxLevel
-affiliations
-sortBy
-order
-
-Example body:
-
-{
-"statuses": ["active", "missing"],
-"powers": ["speed", "flight"],
-"minLevel": 4,
-"maxLevel": 9,
-"affiliations": ["VIGIL"],
-"sortBy": "threatLevel",
-"order": "desc"
-}
-
-Rules:
-
-statuses: hero status must be one of the given values
-powers: hero must have at least one requested power
-minLevel: hero threat level must be greater than or equal
-maxLevel: hero threat level must be less than or equal
-affiliations: hero must belong to at least one requested affiliation
-Multiple fields are combined with AND logic
-Multiple values inside the same array are combined with OR logic
-Empty body {} returns all heroes
-Stats Service
-
-File:
-
-services/stats.service.js
-getHeroesStats()
-
-Used by:
-
-GET /stats
-
-Calculates global archive statistics.
+### `notFound(res)`
 
 Returns:
 
-totalHeroes
-byStatus
-averageThreatLevel
-mostCommonPower
-highestThreat
-newestRecord
-totalHeroes
-
-Total number of heroes in the archive.
-
-Example:
-
-"totalHeroes": 4
-byStatus
-
-Counts heroes by status.
-
-Example:
-
-"byStatus": {
-"active": 2,
-"retired": 1,
-"missing": 0,
-"deceased": 1
-}
-averageThreatLevel
-
-Average of all hero threatLevel values.
-
-Example:
-
-"averageThreatLevel": 6.5
-mostCommonPower
-
-The power that appears most often among all heroes.
-
-Example:
-
-"mostCommonPower": "flight"
-highestThreat
-
-The hero with the highest threatLevel.
-
-newestRecord
-
-The hero record with the most recent createdAt date.
-
-Routes
-Health Route
-GET /health
-
-Checks if the server is running.
-
-Example:
-
-curl "http://localhost:3000/health"
-
-Response:
-
+```json
 {
-"success": true,
-"data": "Hello to healthy server"
+  "success": false,
+  "message": "Route not found"
 }
-Heroes Routes
+```
+
+---
+
+# ⚙️ Services
+
+---
+
+## `services/heroes.service.js`
+
+Contains CRUD logic.
+
+---
+
+### `getAllHeroes()`
+
+Returns all heroes.
+
+Used by:
+
+```txt
 GET /heroes
+POST /heroes/search
+GET /stats
+```
 
-Returns heroes with filtering, sorting, and pagination.
+---
 
-Example:
+### `getHeroesById(id)`
 
-curl "http://localhost:3000/heroes"
+Finds one hero by ID.
 
-With filters:
+If the hero does not exist, it throws a `404` error.
 
-curl "http://localhost:3000/heroes?status=active"
-curl "http://localhost:3000/heroes?power=speed"
-curl "http://localhost:3000/heroes?minLevel=7"
-curl "http://localhost:3000/heroes?sortBy=threatLevel&order=desc"
-curl "http://localhost:3000/heroes?page=1&limit=2"
+Used by:
+
+```txt
 GET /heroes/:id
+```
 
-Returns one hero by id.
+---
 
-Example:
-
-curl "http://localhost:3000/heroes/2"
-
-Possible errors:
-
-404 Hero not found
-POST /heroes
+### `createHero(heroData)`
 
 Creates a new hero.
 
-Example:
+### Required fields
 
-curl -X POST "http://localhost:3000/heroes" \
- -H "Content-Type: application/json" \
- -d '{
-"codeName": "Blue Falcon",
-"powers": ["flight", "speed"],
-"threatLevel": 7,
-"status": "active",
-"origin": "Unknown",
-"affiliations": ["VIGIL"],
-"firstSighting": "2026-01-01",
-"notes": "New registered hero"
-}'
+| Field | Rule |
+|---|---|
+| `codeName` | required, string, non-empty, unique |
+| `powers` | required, non-empty array |
+| `threatLevel` | required, integer between 1 and 10 |
 
-Success status:
+### Optional fields
 
-201 Created
+| Field | Default |
+|---|---|
+| `status` | `active` |
+| `origin` | empty string |
+| `affiliations` | empty array |
+| `firstSighting` | empty string |
+| `notes` | empty string |
+
+### Automatically generated
+
+```txt
+id
+createdAt
+updatedAt
+```
+
+---
+
+### `updateHero(id, updateData)`
+
+Partially updates a hero.
+
+Used by:
+
+```txt
 PATCH /heroes/:id
+```
 
-Updates part of an existing hero.
+Rules:
 
-Example:
+- cannot update `id`
+- cannot update `createdAt`
+- validates fields only if they are sent
+- checks duplicate `codeName`
+- updates `updatedAt`
 
-curl -X PATCH "http://localhost:3000/heroes/2" \
- -H "Content-Type: application/json" \
- -d '{
-"status": "missing"
-}'
+---
 
-Possible errors:
+### `deleteHero(id)`
 
-400 Invalid data
-404 Hero not found
-409 codeName already exists
+Deletes a hero by ID.
+
+Used by:
+
+```txt
 DELETE /heroes/:id
+```
 
-Deletes a hero.
+If the hero does not exist, it throws a `404`.
 
-Example:
+---
 
-curl -X DELETE "http://localhost:3000/heroes/2"
+## `services/search.service.js`
 
-Possible errors:
+Contains filtering, sorting, pagination and advanced search.
 
-404 Hero not found
-POST /heroes/search
+---
 
-Advanced search using request body.
+### `filterHeroesByQuery(heroes, query)`
 
-Example:
+Used by:
 
-curl -X POST "http://localhost:3000/heroes/search" \
- -H "Content-Type: application/json" \
- -d '{
-"statuses": ["active", "missing"],
-"powers": ["speed", "flight"],
-"minLevel": 4,
-"maxLevel": 9,
-"affiliations": ["VIGIL", "Independent"],
-"sortBy": "threatLevel",
-"order": "desc"
-}'
+```txt
+GET /heroes
+```
 
-Empty body returns all heroes:
+Supports:
 
-curl -X POST "http://localhost:3000/heroes/search" \
- -H "Content-Type: application/json" \
- -d '{}'
-Stats Route
-GET /stats
+| Query Param | Description |
+|---|---|
+| `status` | Filter by status |
+| `power` | Filter by one power |
+| `minLevel` | Minimum threat level |
+| `maxLevel` | Maximum threat level |
+| `search` | Search in `codeName` and `notes` |
+| `sortBy` | Sort by field |
+| `order` | `asc` or `desc` |
+| `page` | Page number |
+| `limit` | Results per page |
 
-Returns archive statistics.
+---
 
-Example:
+### Query Examples
 
-curl "http://localhost:3000/stats"
-
-Response example:
-
-{
-"success": true,
-"data": {
-"totalHeroes": 4,
-"byStatus": {
-"active": 2,
-"retired": 1,
-"missing": 0,
-"deceased": 1
-},
-"averageThreatLevel": 6.5,
-"mostCommonPower": "flight",
-"highestThreat": {},
-"newestRecord": {}
-}
-}
-Error Responses
-
-All errors follow this structure:
-
-{
-"success": false,
-"message": "Error message"
-}
-
-Common status codes:
-
-Status Code Meaning
-200 Successful request
-201 Hero created
-400 Invalid input or invalid JSON
-404 Hero or route not found
-409 Duplicate codeName
-500 Internal server error
-
-How to Run the Project
-
-1. Clone the repository
-   git clone <your-repository-url>
-   cd superHeroProject
-2. Install dependencies
-
-This project uses vanilla Node.js and does not require Express.
-
-If a package.json exists:
-
-npm install 3. Start the server
-node server.js
-
-The server runs on:
-
-http://localhost:3000
-Recommended Test Commands
-Health
-curl "http://localhost:3000/health"
-Get all heroes
-curl "http://localhost:3000/heroes"
-Get hero by id
-curl "http://localhost:3000/heroes/1"
-Filter by status
+```bash
 curl "http://localhost:3000/heroes?status=active"
-Filter by power
+```
+
+```bash
 curl "http://localhost:3000/heroes?power=speed"
-Filter by level
+```
+
+```bash
 curl "http://localhost:3000/heroes?minLevel=7"
-Sort by threat level
+```
+
+```bash
 curl "http://localhost:3000/heroes?sortBy=threatLevel&order=desc"
-Pagination
+```
+
+```bash
 curl "http://localhost:3000/heroes?page=1&limit=2"
-Create hero
-curl -X POST "http://localhost:3000/heroes" \
- -H "Content-Type: application/json" \
- -d '{
-"codeName": "Night Arrow",
-"powers": ["precision", "stealth"],
-"threatLevel": 5
-}'
-Update hero
-curl -X PATCH "http://localhost:3000/heroes/1" \
- -H "Content-Type: application/json" \
- -d '{
-"status": "missing"
-}'
-Delete hero
-curl -X DELETE "http://localhost:3000/heroes/1"
-Advanced search
+```
+
+---
+
+### `advancedSearchHeroes(heroes, body)`
+
+Used by:
+
+```txt
+POST /heroes/search
+```
+
+Supports:
+
+| Body Field | Description |
+|---|---|
+| `statuses` | Array of allowed statuses |
+| `powers` | Array of powers |
+| `minLevel` | Minimum threat level |
+| `maxLevel` | Maximum threat level |
+| `affiliations` | Array of affiliations |
+| `sortBy` | Sort field |
+| `order` | Sort direction |
+
+---
+
+### Advanced Search Example
+
+```bash
 curl -X POST "http://localhost:3000/heroes/search" \
- -H "Content-Type: application/json" \
- -d '{
-"statuses": ["active"],
-"powers": ["speed"]
-}'
-Stats
+  -H "Content-Type: application/json" \
+  -d '{
+    "statuses": ["active", "missing"],
+    "powers": ["speed", "flight"],
+    "minLevel": 4,
+    "maxLevel": 9,
+    "affiliations": ["VIGIL", "Independent"],
+    "sortBy": "threatLevel",
+    "order": "desc"
+  }'
+```
+
+Rules:
+
+```txt
+Different fields = AND logic
+Values inside arrays = OR logic
+```
+
+Example:
+
+```json
+{
+  "statuses": ["active", "missing"],
+  "powers": ["speed", "flight"]
+}
+```
+
+Means:
+
+```txt
+Hero must be active OR missing
+AND
+Hero must have speed OR flight
+```
+
+---
+
+## `services/stats.service.js`
+
+Contains archive statistics logic.
+
+---
+
+### `getHeroesStats()`
+
+Used by:
+
+```txt
+GET /stats
+```
+
+Returns:
+
+| Field | Description |
+|---|---|
+| `totalHeroes` | Total number of heroes |
+| `byStatus` | Count by status |
+| `averageThreatLevel` | Average threat level |
+| `mostCommonPower` | Most frequent power |
+| `highestThreat` | Hero with highest threat level |
+| `newestRecord` | Most recently created hero |
+
+---
+
+# 📊 Stats Example
+
+```bash
 curl "http://localhost:3000/stats"
-Invalid route
-curl "http://localhost:3000/unknown-route"
+```
+
+Example response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalHeroes": 4,
+    "byStatus": {
+      "active": 2,
+      "retired": 1,
+      "missing": 0,
+      "deceased": 1
+    },
+    "averageThreatLevel": 6.5,
+    "mostCommonPower": "speed",
+    "highestThreat": {
+      "id": 4,
+      "codeName": "Old Thunder",
+      "threatLevel": 9
+    },
+    "newestRecord": {
+      "id": 5,
+      "codeName": "Glass Fox"
+    }
+  }
+}
+```
+
+---
+
+# 🧪 Recommended Tests
+
+## Health
+
+```bash
+curl "http://localhost:3000/health"
+```
+
+## Get all heroes
+
+```bash
+curl "http://localhost:3000/heroes"
+```
+
+## Get hero by ID
+
+```bash
+curl "http://localhost:3000/heroes/2"
+```
+
+## Create hero
+
+```bash
+curl -X POST "http://localhost:3000/heroes" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "codeName": "Night Arrow",
+    "powers": ["precision", "stealth"],
+    "threatLevel": 5
+  }'
+```
+
+## Update hero
+
+```bash
+curl -X PATCH "http://localhost:3000/heroes/2" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "missing"
+  }'
+```
+
+## Delete hero
+
+```bash
+curl -X DELETE "http://localhost:3000/heroes/2"
+```
+
+## Advanced search
+
+```bash
+curl -X POST "http://localhost:3000/heroes/search" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "statuses": ["active"],
+    "powers": ["speed"]
+  }'
+```
+
+## Stats
+
+```bash
+curl "http://localhost:3000/stats"
+```
+
+## Invalid route
+
+```bash
+curl "http://localhost:3000/not-existing"
+```
 
 Expected:
 
+```json
 {
-"success": false,
-"message": "Route not found"
+  "success": false,
+  "message": "Route not found"
 }
-Notes
-This project does not use Express.
-Request bodies are parsed manually using Node.js streams.
-Data is stored in a local JSON file.
-All responses follow a consistent format.
-The code is separated into routes, services, data, utilities, and middleware.
+```
 
-The project is designed to demonstrate backend fundamentals using only vanilla Node.js.
+---
+
+# 🚦 Status Codes
+
+| Code | Meaning |
+|---|---|
+| `200` | Request successful |
+| `201` | Hero created |
+| `400` | Invalid input or invalid JSON |
+| `404` | Hero or route not found |
+| `409` | Duplicate `codeName` |
+| `500` | Internal server error |
+
+---
+
+# ✨ Features Completed
+
+```txt
+✅ Vanilla Node.js server
+✅ Manual routing
+✅ JSON database
+✅ Manual body parser
+✅ Uniform responses
+✅ CRUD heroes
+✅ Query filters
+✅ Search by text
+✅ Sort
+✅ Pagination with meta
+✅ Advanced body search
+✅ Stats endpoint
+✅ Not found middleware
+```
+
+---
+
+<div align="center">
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&center=true&vCenter=true&width=600&lines=Built+with+Vanilla+Node.js;No+Express+Needed;VIGIL+Archive+Operational" alt="Typing animation" />
+
+</div>
+
