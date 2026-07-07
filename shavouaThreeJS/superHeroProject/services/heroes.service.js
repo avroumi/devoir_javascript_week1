@@ -1,4 +1,18 @@
+import { fstat } from "fs";
 import { readHeroes, writeHeroes} from "../data/heroesData.js";
+
+
+
+
+const VALID_STATUSES = ["active", "retired", "missing", "deceased"]
+
+const createError = (statusCode, message) => {
+    const error = new Error(message)
+    error.statusCode = statusCode
+    return error
+}
+
+
 
 export const getAllHeroes = async () => {
     const allHeroes = await readHeroes()
@@ -10,20 +24,13 @@ export const getHeroesById = async (id) => {
     const heroes = await readHeroes()
     const heroeById = heroes.find(heroe => heroe.id === numId)
     if (!heroeById){
-        throw new Error("404 not found")
+        throw createError(404, "Hero not found")
     }
     return heroeById
 }
 
-import { readHeroes, writeHeroes } from "../data/heroesData.js"
 
-const VALID_STATUSES = ["active", "retired", "missing", "deceased"]
 
-const createError = (statusCode, message) => {
-    const error = new Error(message)
-    error.statusCode = statusCode
-    return error
-}
 
 export const createHero = async (heroData) => {
     const requiredFields = ["codeName", "powers", "threatLevel"]
@@ -106,4 +113,87 @@ export const createHero = async (heroData) => {
     await writeHeroes(heroes)
 
     return newHero
+}
+
+export const updateHero = async (id, updateData) => {
+    const heroes = await readHeroes()
+    const numId = Number(id)
+
+    const heroIndex = heroes.findIndex(hero => hero.id === numId)
+
+    if (heroIndex === -1){
+        throw createError(404 , "Hero not found")
+    }
+
+    if (updateData.id !== undefined){
+        throw createError(400, "You can't change id")
+    }
+    if (updateData.createdAt !== undefined){
+        throw createError(400, "you can't change date of creation")
+    }
+    if (updateData.codeName !== undefined){
+        if (typeof updateData.codeName !== "string" || updateData.codeName.trim( ) === ""){
+            throw createError(400, "you codeName can't be empty")}
+
+            const sameCodeName = heroes.find(hero => hero.codeName === updateData.codeName.trim())
+
+            if (sameCodeName && sameCodeName.id !== numId){
+                throw createError(409, `you can defined this codename , is already use by hero ${sameCodeName.id}`)
+            }
+        }
+
+
+    if (updateData.powers !== undefined){
+        if (!Array.isArray(updateData.powers) || updateData.powers.length === 0){
+            throw createError(400, "Powers must be an array not empty")
+        }
+        for (const power of updateData.powers){
+            if (typeof power !== "string" || power.trim() === ""){
+                throw createError(400, "Powers must be not empty and arr of string")
+            }
+        }
+    }
+
+    if (updateData.threatLevel !== undefined){
+        if (!Number.isInteger(updateData.threatLevel) || 
+        updateData.threatLevel < 1 || updateData.threatLevel > 10 ){
+            throw createError(400 , "threatLevel must be an integrer between 1 and 10")
+        }
+    }
+
+    if (updateData.status !== undefined){
+        if (!VALID_STATUSES.includes(updateData.status)){
+            throw createError(400, `Status must be in the list ${VALID_STATUSES}`)
+        }
+    }
+
+    if (updateData.affiliations !== undefined){
+        if (!Array.isArray(updateData.affiliations)){
+            throw createError(400, "affiliations must be array")
+        }
+    }
+
+    const oldHero = heroes[heroIndex]
+
+    const updatedHero = {
+        ...oldHero,
+        ...updateData,
+        updatedAt : new Date().toISOString()
+    }
+
+    heroes[heroIndex] = updatedHero
+
+    await writeHeroes(heroes)
+
+    return updatedHero
+} 
+
+export const deleteHero = async id => {
+    const heroes = await readHeroes()
+    const numId = Number(id)
+    const heroExists = await getHeroesById(numId)
+
+    const updatedHeroes = heroes.filter(hero => hero.id !== numId)
+    await writeHeroes(updatedHeroes)
+    return {message : `Delete hero ${heroExists.codeName} sucessfully `}
 }
