@@ -2,15 +2,21 @@ import { getAllHeroes, getHeroesById,
     updateHero, deleteHero, createHero } from "../services/heroes.service.js";
 import { parseBody } from "../utils/parseBody.js";
 import { sendError,sendSuccess } from "../utils/response.js";
+import { filterHeroesByQuery } from "../services/search.service.js";
 
 export const handleHeroesRoutes = async (req, res, url) => {
     const {method} = req
     const pathname = url.pathname
-
+    
     try{
         if (method === "GET" && pathname === "/heroes") {
+            
+            const query = Object.fromEntries(url.searchParams.entries())
             const heroes = await getAllHeroes()
-            sendSuccess(res, 200, heroes)
+
+            const result = filterHeroesByQuery(heroes, query)
+
+            sendSuccess(res, 200, result.data, result.meta)
             return true
         }
         if (method === "POST" && pathname === "/heroes"){
