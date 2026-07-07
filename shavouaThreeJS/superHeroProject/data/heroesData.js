@@ -11,7 +11,7 @@ export const readHeroes = async () => {
 export const writeHeroes = async (data) => {
     
     const jsonData = JSON.stringify(data, null , 2)
-    await fs.writeFile(FILE_PATH, data, "utf-8")
+    await fs.writeFile(FILE_PATH, jsonData, "utf-8")
     return {message : "Write succesfully"}
     
 }
