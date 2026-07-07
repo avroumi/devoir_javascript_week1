@@ -1,12 +1,17 @@
 
 
-export const sendSuccess = (res, statusCode, data) => {
+export const sendSuccess = (res, statusCode, data, meta = null) => {
     res.statusCode = statusCode
     res.setHeader("Content-Type", "application/json")
-    const body = JSON.stringify({
+    const response = {
         success : true,
         data : data
-    })
+    }
+
+    if (meta !== null)(
+        response.meta = meta
+    )
+    const body = JSON.stringify(response)
     return res.end(body)
     
 }
