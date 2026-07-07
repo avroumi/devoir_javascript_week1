@@ -2,7 +2,7 @@ import { getAllHeroes, getHeroesById,
     updateHero, deleteHero, createHero } from "../services/heroes.service.js";
 import { parseBody } from "../utils/parseBody.js";
 import { sendError,sendSuccess } from "../utils/response.js";
-import { filterHeroesByQuery } from "../services/search.service.js";
+import { filterHeroesByQuery , advancedSearchHeroes} from "../services/search.service.js";
 
 export const handleHeroesRoutes = async (req, res, url) => {
     const {method} = req
@@ -10,7 +10,7 @@ export const handleHeroesRoutes = async (req, res, url) => {
     
     try{
         if (method === "GET" && pathname === "/heroes") {
-            
+
             const query = Object.fromEntries(url.searchParams.entries())
             const heroes = await getAllHeroes()
 
@@ -24,6 +24,14 @@ export const handleHeroesRoutes = async (req, res, url) => {
             const newHero = await createHero(body)
             sendSuccess(res, 201, newHero)
             return true 
+        }
+        if (method === "POST" && pathname === "/heroes/search"){
+            const body = await parseBody(req)
+            const heroes = await getAllHeroes()
+
+            const result = advancedSearchHeroes(heroes, body)
+            sendSuccess(res, 200, result)
+            return true
         }
 
         const parts = pathname.split("/").filter(Boolean)

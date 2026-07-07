@@ -79,6 +79,101 @@ return {
 
 }
 
+}
 
+export const advancedSearchHeroes = (heroes, body) => {
+    let filteredHeroes = heroes
 
+    if (body.statuses) {
+        if (!Array.isArray(body.statuses)) {
+            throw new Error("400 statuses must be an array")
+        }
+
+        if (body.statuses.length > 0) {
+            filteredHeroes = filteredHeroes.filter(hero =>
+                body.statuses.includes(hero.status)
+            )
+        }
+    }
+
+    if (body.powers) {
+        if (!Array.isArray(body.powers)) {
+            throw new Error("400 powers must be an array")
+        }
+
+        if (body.powers.length > 0) {
+            filteredHeroes = filteredHeroes.filter(hero =>
+                body.powers.some(power => hero.powers.includes(power))
+            )
+        }
+    }
+
+    if (body.minLevel !== undefined) {
+        const levelNum = Number(body.minLevel)
+
+        if (Number.isNaN(levelNum)) {
+            throw new Error("400 Invalid minLevel")
+        }
+
+        filteredHeroes = filteredHeroes.filter(hero =>
+            hero.threatLevel >= levelNum
+        )
+    }
+
+    if (body.maxLevel !== undefined) {
+        const maxLevelNum = Number(body.maxLevel)
+
+        if (Number.isNaN(maxLevelNum)) {
+            throw new Error("400 Invalid maxLevel")
+        }
+
+        filteredHeroes = filteredHeroes.filter(hero =>
+            hero.threatLevel <= maxLevelNum
+        )
+    }
+
+    if (body.affiliations) {
+        if (!Array.isArray(body.affiliations)) {
+            throw new Error("400 affiliations must be an array")
+        }
+
+        if (body.affiliations.length > 0) {
+            filteredHeroes = filteredHeroes.filter(hero =>
+                body.affiliations.some(affiliation =>
+                    hero.affiliations.includes(affiliation)
+                )
+            )
+        }
+    }
+
+    if (body.sortBy) {
+        const authorizeSort = ["codeName", "threatLevel", "firstSighting"]
+
+        if (!authorizeSort.includes(body.sortBy)) {
+            throw new Error("400 Invalid sortBy")
+        }
+
+        let order = "asc"
+
+        if (body.order !== undefined) {
+            if (body.order !== "asc" && body.order !== "desc") {
+                throw new Error("400 Invalid order")
+            }
+
+            order = body.order
+        }
+
+        const direction = order === "asc" ? 1 : -1
+
+        filteredHeroes = [...filteredHeroes].sort((a, b) => {
+            const valueA = a[body.sortBy]
+            const valueB = b[body.sortBy]
+
+            if (valueA > valueB) return direction
+            if (valueA < valueB) return -direction
+            return 0
+        })
+    }
+
+    return filteredHeroes
 }
