@@ -21,7 +21,8 @@ export const filterHeroesByQuery =  (heroes, query) => {
     }
     if (query.search){
         const sentence = query.search.toLowerCase()
-        filteredHeroes = filteredHeroes.filter(hero => hero.codeName.toLowerCase().includes(sentence) || (hero.notes || "").toLowerCase().includes(sentence))
+        filteredHeroes = filteredHeroes.filter(hero => hero.codeName.toLowerCase()
+        .includes(sentence) || (hero.notes || "").toLowerCase().includes(sentence))
     
     }
     if (query.sortBy){
