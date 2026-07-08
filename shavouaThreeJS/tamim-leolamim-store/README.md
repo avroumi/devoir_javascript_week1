@@ -104,9 +104,9 @@ npm install
 Create a `.env` file in the root folder:
 
 ```env
-PORT=3000
-DB_BASE_PATH=./db
-STARTING_BALANCE=500
+PORT= int
+DB_BASE_PATH= path
+STARTING_BALANCE= int
 ```
 
 A `.env.example` file is included as a template.
