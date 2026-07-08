@@ -1,0 +1,18 @@
+{
+  "name": "tamim-leolamim-store",
+  "version": "1.0.0",
+  "description": "Express backend for Tamim Leolamim online store",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}
