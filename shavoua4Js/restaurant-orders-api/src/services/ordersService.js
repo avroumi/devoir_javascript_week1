@@ -1,4 +1,4 @@
-import { CANCELLED } from "dns"
+
 import fs from "fs/promises"
 
 const filePath = new URL("../data/orders.json", import.meta.url)
@@ -68,8 +68,9 @@ export async function createOrderService(data){
 
     const orders = await readOrders()
     const newOrder = {
-        id : orders.lenght > 0 ? orders[order.lenght -1 ].id +1 : 1 ,
+        id : orders.length > 0 ? orders[order.length -1 ].id +1 : 1 ,
         customer, 
+        items,
         table ,
         status : "NEW",
         createdAt : new Date().toISOString()
@@ -92,7 +93,7 @@ export async function updateOrderService(id, data){
     }
 
     const orders = await readOrders()
-    const index = order.findIndex(order => order.id === Number(id))
+    const index = orders.findIndex(order => order.id === Number(id))
 
     if (index === -1 ){
         throw createError(404, "Order not found")
@@ -107,12 +108,12 @@ export async function updateOrderService(id, data){
     }
 
     await writeOrders(orders)
-    return order[index]
+    return orders[index]
 }
 
 export async function deleteOrderService(id){
     const orders = await readOrders()
-    const index = findIndex(order => order.id === Number(id))
+    const index = orders.findIndex(order => order.id === Number(id))
 
     if (index === -1 ){
         throw createError(404, "Order not fond")

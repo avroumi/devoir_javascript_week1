@@ -48,7 +48,7 @@ import { getAllordersService,
  }
  export async function updateOrderSatus(req,res,next) {
     try{
-        const updateOrder = await updateStatusService(req.pararms.id, req.body.status)
+        const updateOrder = await updateStatusService(req.params.id, req.body.status)
         res.json(updateOrder)
     }catch(err){
         next(err)

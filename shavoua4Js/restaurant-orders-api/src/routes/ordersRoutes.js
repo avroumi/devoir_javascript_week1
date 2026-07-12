@@ -21,7 +21,7 @@ router.put("/:id", checkId, updateOrder)
 
 router.delete("/:id",checkId, deleteOrder)
 
-router.patch("/:id", checkId, updateOrderSatus)
+router.patch("/:id/status", checkId, updateOrderSatus)
 
 export default router
 
