@@ -50,6 +50,15 @@ export async function getAllordersService(query){
     return  orders 
 }
 
+export async function getOrderByIdService(id){
+    const orders = await readOrders()
+    const order = orders.find(order => order.id === Number(id))
+    if (!order){
+        throw createError(404, "Order not found")
+    }
+    return order
+}
+
 export async function createOrderService(data){
     const {customer, table , items} = data 
 

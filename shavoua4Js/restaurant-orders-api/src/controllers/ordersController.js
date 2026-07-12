@@ -16,7 +16,7 @@ import { getAllordersService,
  }
  export async function getOrderById(req,res,next) {
     try{
-        const orders = await getOrderByIdService(req.parmas.id)
+        const orders = await getOrderByIdService(req.params.id)
         res.json(orders)
     }catch(err){
         next(err)

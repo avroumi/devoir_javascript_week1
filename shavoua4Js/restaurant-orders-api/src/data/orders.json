@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": 1,
+    "customer": "David",
+    "table": 5,
+    "status": "NEW",
+    "createdAt": "2026-07-12T12:53:49.614Z"
+  }
+]
