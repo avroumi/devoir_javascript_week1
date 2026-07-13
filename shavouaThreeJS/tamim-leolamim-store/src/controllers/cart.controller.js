@@ -3,7 +3,7 @@ import {
     addItemToCart,
     removeItemFromCart
 } from "../services/cart.service.js"
-import { sendSuccess } from "../utils/response.js"
+import { sendSuccess } from "../utils/responses.js"
 
 export const getCart = async (req, res) => {
     const {customerId} = req.query
@@ -13,7 +13,7 @@ export const getCart = async (req, res) => {
     sendSuccess(res, cart)
 }
 
-export const addCarItem = async (req, res) => {
+export const addCartItem = async (req, res) => {
     const cart = await addItemToCart(req.body)
 
     sendSuccess(res, cart)

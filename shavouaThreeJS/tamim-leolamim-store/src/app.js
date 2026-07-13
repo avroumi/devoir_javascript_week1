@@ -5,6 +5,7 @@ import mainRoutes from "./routes/main.routes.js"
 import cartRoutes from "./routes/cart.routes.js"
 import accountRoutes from "./routes/account.routes.js"
 import productRoutes from "./routes/products.routes.js"
+import ordersRoutes from "./routes/orders.routes.js"
 
 
 import { errorMiddleware } from "./middlewares/error.middelware.js"
@@ -20,6 +21,7 @@ app.use("/", mainRoutes)
 app.use("/products", productRoutes)
 app.use("/cart", cartRoutes)
 app.use("/account", accountRoutes)
+app.use("/orders", ordersRoutes)
 
 
 

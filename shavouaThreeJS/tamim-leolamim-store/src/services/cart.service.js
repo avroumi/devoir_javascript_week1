@@ -3,11 +3,11 @@ import { readProducts } from "../repositories/products.repository.js"
 import { getOrCreateCustomer, saveCustomer } from "./customers.service.js"
 
 export const getCustomerCart = async (customerId) => {
-    const customer = await getOrCreateCustomer()
+    const customer = await getOrCreateCustomer(customerId)
     const products = await readProducts()
 
     const items = customer.cart.map(cartitem => {
-        const product = product.find(product => product.id === cartitem.productId)
+        const product = products.find(product => product.id === cartitem.productId)
         return {
             productId: cartitem.productId,
             name: product?.name || "Unknow product",
@@ -27,10 +27,10 @@ export const getCustomerCart = async (customerId) => {
 }
 
 export const addItemToCart = async ({customerId, productId, quantity}) => {
-    const customer = await getOrCreateCustomer()
+    const customer = await getOrCreateCustomer(customerId)
     const products = await readProducts()
 
-    const product = products.find(product => product.id === productId)
+    const product = products.find(item => item.id === productId)
     if (!product){
         throw new AppError("product not found ", 404)
     }
@@ -46,7 +46,7 @@ export const addItemToCart = async ({customerId, productId, quantity}) => {
     }
 
     if (existingItem){
-        existingItem.quantity + quantity
+        existingItem.quantity += quantity
     }else{
         customer.cart.push({
             productId,

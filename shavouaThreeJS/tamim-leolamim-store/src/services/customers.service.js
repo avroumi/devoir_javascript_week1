@@ -1,5 +1,5 @@
-import { readCustomers,writeCustomers } from "../repositories/customers.repository.js";
-import { startingBalance } from "../config/env.js";
+import { readCustomers, writeCustomers } from "../repositories/customers.repository.js"
+import { startingBalance } from "../config/env.js"
 
 export const getOrCreateCustomer = async (customerId) => {
     const customers = await readCustomers()
@@ -9,31 +9,32 @@ export const getOrCreateCustomer = async (customerId) => {
     if (!customer) {
         customer = {
             customerId,
-            balance : startingBalance,
+            balance: startingBalance,
             cart: [],
-            createdAt : new Date().toISOString() 
+            createdAt: new Date().toISOString()
         }
+
+        customers.push(customer)
+        await writeCustomers(customers)
     }
-    customer.push(customer)
-    await writeCustomers(customers)
 
     return customer
 }
 
-export const saveCustomer = async (upadatedCustomer) => {
+export const saveCustomer = async (updatedCustomer) => {
     const customers = await readCustomers()
 
     const customerIndex = customers.findIndex(
-        customer => customer.customerId === upadatedCustomer.customerId
+        customer => customer.customerId === updatedCustomer.customerId
     )
 
-    if (customerIndex === 1 ){
-        customers.push(upadatedCustomer)
-    }else{
-        customers[customerIndex] = upadatedCustomer
+    if (customerIndex === -1) {
+        customers.push(updatedCustomer)
+    } else {
+        customers[customerIndex] = updatedCustomer
     }
 
     await writeCustomers(customers)
 
-    return upadatedCustomer
+    return updatedCustomer
 }

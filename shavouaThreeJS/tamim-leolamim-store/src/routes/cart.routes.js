@@ -1,5 +1,5 @@
 import express from "express"
-import { getCart, addCartItem, deleteCartItem } from "../controllers/cart.controller.js"
+import { getCart, addCartItem, deleteCartItem} from "../controllers/cart.controller.js"
 import { asyncHandler } from "../utils/asyncHandler.js"
 import { requireCustomerIdQuery } from "../middlewares/requireCustomerIdQuery.middleware.js"
 import { validateAddCartItemBody, validateRemoveCartItem } from "../validators/cart.validator.js"

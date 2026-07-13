@@ -11,11 +11,11 @@ export const validateAddCartItemBody = (req,res,next) => {
     const numProductId = Number(productId)
     const numQuantity = Number(quantity)
 
-    if (!Number.isInteger(numericProductId)) {
+    if (!Number.isInteger(numProductId)) {
         return next(new AppError("productId must be an integer", 400))
     }
 
-    if (!Number.isInteger(numericQuantity) || numericQuantity <= 0) {
+    if (!Number.isInteger(numQuantity) || numQuantity <= 0) {
         return next(new AppError("quantity must be an integer greater than 0", 400))
     }
 
