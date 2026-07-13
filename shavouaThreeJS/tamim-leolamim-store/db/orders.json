@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": 1,
+    "customerId": "abc123",
+    "items": [
+      {
+        "productId": 1,
+        "name": "Classic White Shirt",
+        "price": 60,
+        "quantity": 2,
+        "subtotal": 120
+      }
+    ],
+    "total": 120,
+    "createdAt": "2026-07-13T20:29:42.196Z"
+  }
+]

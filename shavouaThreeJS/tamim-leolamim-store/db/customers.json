@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "customerId": "abc123",
+    "balance": 380,
+    "cart": [],
+    "createdAt": "2026-07-13T20:28:42.383Z"
+  },
+  {
+    "customerId": "poorBachur",
+    "balance": 500,
+    "cart": [
+      {
+        "productId": 13,
+        "quantity": 1
+      }
+    ],
+    "createdAt": "2026-07-13T20:33:31.453Z"
+  }
+]
