@@ -1,7 +1,7 @@
 import { readProducts } from "../repositories/products.repository.js";
 import AppError from "../utils/AppError.js"
 
-export const getAllproducts = async (filters) => {
+export const getAllProducts = async (filters) => {
     const {inStock, maxPrice,search} =filters
 
     let products = await readProducts()
@@ -24,9 +24,9 @@ export const getAllproducts = async (filters) => {
     products = products.filter(product=> product.price <= priceLimit)
     }
     if (search !== undefined){
-        const searchText  = search.toLowercase()
+        const searchText  = search.toLowerCase()
 
-        products = products.filter(product => product.name.toLowercase().includes(searchText))
+        products = products.filter(product => product.name.toLowerCase().includes(searchText))
     }
 
     return products
