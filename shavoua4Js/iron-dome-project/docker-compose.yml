@@ -1,0 +1,15 @@
+services:
+  sql: 
+    image: mysql:9
+    container_name: sqlIronDome
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+volumes:
+  mysqldata:
+    
