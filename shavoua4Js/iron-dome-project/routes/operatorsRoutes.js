@@ -1,8 +1,8 @@
-import express from "express"
-import { createOperatorController } from "../controllers/operatorsControllers.js"
+import express from "express";
+import { createOperatorController } from "../controllers/operatorsControllers.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/",createOperatorController)
+router.post("/", createOperatorController);
 
-export default router 
+export default router;

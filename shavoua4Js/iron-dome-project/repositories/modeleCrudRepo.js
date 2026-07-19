@@ -2,7 +2,7 @@ import pool from '../db/database.js'
 
 export const createRow = async (tablename, data) => {
 
-    const key = Object.keys(data).join(', ')
+    const key = Object.keys(data).map(key => `\`${key}\``).join(', ')
     const values = Object.values(data)
     const placeholders = Object.values(data).map(_ => "?").join(", ")
 
@@ -15,13 +15,13 @@ export const createRow = async (tablename, data) => {
 
 export const find = async (tableName, filter = {}) => {
     const conditions = Object.keys(filter)
-        .map(key => `${key} = ? `).join(" and ")
+        .map(key =>  `\`${key}\``).join(" and ")
     const values = Object.values(filter)
     const whereQuery = conditions? `where ${conditions}` : ''
 
     const [result] = await pool.execute(`select * from ${tableName}
         ${whereQuery}`, values)
-    return result[0]
+    return result
 
 }
 
@@ -30,11 +30,11 @@ export const findById = async (tableName, id) => {
     if (result.length === 0){
         return false
     }
-    return result 
+    return result[0] 
 }
 
 export const updateRow = async (tableName, id , updatedata ) => {
-    const key = Object.keys(updatedata).map(key => `${key} = ? `).join(', ')
+    const key = Object.keys(updatedata).map(key =>  `\`${key}\` = ? `).join(', ')
     const values = [...Object.values(updatedata), id]
 
     const [result] = await pool.execute(`update ${tableName} set ${key} where id = ?`, values)

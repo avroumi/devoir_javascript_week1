@@ -35,7 +35,7 @@ const createTables = async (pool) => {
     await pool.execute(`create table if not exists operators(
                 id int primary key auto_increment ,
                 name varchar(100) not null , 
-                rank_ varchar(100) not null ) `)
+                \`rank\` varchar(100) not null ) `)
     
     await pool.execute(`create table if not exists incidents (
                     id int primary key auto_increment , 
