@@ -1,11 +1,6 @@
 <div align="center">
 
-<img
-src="./assets/iron-dome-ops.gif"
-alt="Iron Dome Ops interception animation"
-width="100%"
-
->
+![Iron Dome Ops interception animation](./assets/iron-dome-ops.gif)
 
 # 🛡️ Iron Dome Ops
 
