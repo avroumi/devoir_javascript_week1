@@ -1,17 +1,19 @@
 <div align="center">
 
-<img src="./assets/iron-dome-ops.gif" alt="Iron Dome Ops interception animation" width="100%">
+<img
+src="./assets/iron-dome-ops.gif"
+alt="Iron Dome Ops interception animation"
+width="100%"
+
+>
 
 # 🛡️ Iron Dome Ops
 
 ### Real-Time Operational Incident Management API
 
-[![Node.js](https://img.shields.io/badge/Node.js-24.x-0A66C2?style=for-the-badge&logo=node.js&logoColor=white)](#)
-[![Express](https://img.shields.io/badge/Express-5.x-0A66C2?style=for-the-badge&logo=express&logoColor=white)](#)
-[![MySQL](https://img.shields.io/badge/MySQL-9.x-005C9C?style=for-the-badge&logo=mysql&logoColor=white)](#)
-[![Docker](https://img.shields.io/badge/Docker-Compose-0078D4?style=for-the-badge&logo=docker&logoColor=white)](#)
+`Node.js` • `Express.js` • `MySQL` • `Docker Compose`
 
-**REST Backend · Layered Architecture · Automatic Logs · MySQL with Docker**
+**REST Backend • Layered Architecture • Automatic Logs**
 
 </div>
 
